@@ -1,21 +1,19 @@
 package User;
 
-import GameElement.Bottle;
+import GameElement.BottleSet;
 import GameElement.Water;
 
 public class MoveWater implements UserAction{
-    Bottle originBottle;
-    Bottle destinationBottle;
+    int originBottleIndex;
+    int destinationBottleIndex;
+    int movedWaterLevel;
 
-    public MoveWater(Bottle originBottle, Bottle destinationBottle) {
-        this.originBottle = originBottle;
-        this.destinationBottle = destinationBottle;
-        moveWaterAction(originBottle, destinationBottle);
+    public MoveWater(int originBottleIndex, int destinationBottleIndex) {
+        this.originBottleIndex = originBottleIndex;
+        this.destinationBottleIndex = destinationBottleIndex;
     }
 
-    public void moveWaterAction(Bottle bottleA, Bottle bottleB) {
-        // add check valid move
-        Water water = bottleA.removeWater();
-        bottleB.addWater(water);
+    public void moveWaterAction(BottleSet bottles) {
+        movedWaterLevel = bottles.moveTopWater(originBottleIndex, destinationBottleIndex);
     }
 }

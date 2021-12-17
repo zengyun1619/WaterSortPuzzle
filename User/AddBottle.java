@@ -1,4 +1,6 @@
 package User;
 
-public class AddBottle  {
+public class AddBottle implements UserAction {
+
+
 }
