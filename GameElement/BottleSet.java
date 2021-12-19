@@ -13,9 +13,8 @@ public class BottleSet{
 
     private ArrayList<Water[]> bottles = new ArrayList<>();
 
-    public BottleSet(int bottleCount, Random rd) {
+    public BottleSet(int bottleCount) {
         this.bottleCount = bottleCount;
-        initiate(rd);
     }
 
     public void initiate(Random rd) {
@@ -36,8 +35,6 @@ public class BottleSet{
             bottles.get(bottleFrom)[waterLevelFrom] = bottles.get(bottleTo)[waterLevelTo];
             bottles.get(bottleTo)[waterLevelTo] = temp;
         }
-
-        // suffle the colors
 
         for (int i = 0; i < bufferBottleCount; i++) {
             Water[] bottle = new Water[waterLevelMax];
@@ -61,6 +58,16 @@ public class BottleSet{
         bottleCount += 1;
     }
 
+    public int getWaterLevelMax() { return waterLevelMax;}
+
+    public boolean isFull(Water[] bottle) {
+        return bottle[waterLevelMax - 1] != null;
+    }
+
+    public boolean isEmpty(Water[] bottle) {
+        return bottle[0] == null;
+    }
+
     public int getWaterLevel(Water[] bottle) {
         int waterLevel = 0;
         while(waterLevel < waterLevelMax) {
@@ -72,7 +79,14 @@ public class BottleSet{
         return waterLevel;
     }
 
-    public int getWaterLevelMax() { return waterLevelMax;}
+    public Color getTopWaterColor(Water[] bottle) {
+        int waterLevel = getWaterLevel(bottle);
+        if (waterLevel == 0) {
+            return null;
+        } else {
+            return bottle[waterLevel - 1].getColor();
+        }
+    }
 
     public int getTopWaterSize(Water[] bottle) {
         int waterLevel = getWaterLevel(bottle);
@@ -80,14 +94,21 @@ public class BottleSet{
             return 0;
         }
         int topWaterSize = 1;
-        Color topWaterColor = bottle[waterLevel].getColor();
-        while(waterLevel > 0) {
+        Color topWaterColor = bottle[waterLevel - 1].getColor();
+        while(waterLevel > 1) {
             waterLevel -= 1;
-            if (bottle[waterLevel].getColor().equals(topWaterColor)) {
+            if (bottle[waterLevel - 1].getColor().equals(topWaterColor)) {
                 topWaterSize += 1;
+            } else {
+                return topWaterSize;
             }
         }
         return topWaterSize;
+    }
+
+    public int getTopSpaceSize(Water[] bottle) {
+        int waterLevel = getWaterLevel(bottle);
+        return waterLevelMax - waterLevel;
     }
 
     public int getBottleCount() { return bottleCount; }
@@ -112,23 +133,38 @@ public class BottleSet{
         }
     }
 
-    public int moveTopWater(Water[] bottleFrom, Water[] bottleTo) {
-        int waterLevelFrom = getWaterLevel(bottleFrom);
-        int waterLevelTo = getWaterLevel(bottleTo);
-        int waterSize = getTopWaterSize(bottleFrom);
-        if (waterLevelTo <= waterLevelMax - waterSize && waterLevelFrom > 0) {
-            for (int i = 0; i < waterSize; i++) {
-                bottleTo[waterLevelTo + i] = bottleFrom[waterLevelFrom - 1 - i];
-                bottleFrom[waterLevelFrom - 1 - i] = null;
-            }
-            return waterSize;
-        } else {
+    public int moveTopWater(int bottleFromIndex, int bottleToIndex) {
+        Water[] bottleFrom = bottles.get(bottleFromIndex);
+        Water[] bottleTo = bottles.get(bottleToIndex);
+        if (isEmpty(bottleFrom) || isFull(bottleTo)) {
             return 0;
         }
+        int waterLevelFrom = getWaterLevel(bottleFrom);
+        int waterLevelTo = getWaterLevel(bottleTo);
+        if (!isEmpty(bottleTo) && !getTopWaterColor(bottleFrom).equals(getTopWaterColor(bottleTo))) {
+            return 0;
+        }
+        int waterSize = getTopWaterSize(bottleFrom);
+        int spaceSize = getTopSpaceSize(bottleTo);
+        if (waterSize > spaceSize) {
+            return 0;
+        }
+        for (int i = 0; i < waterSize; i++) {
+            bottleTo[waterLevelTo + i] = bottleFrom[waterLevelFrom - 1 - i];
+            bottleFrom[waterLevelFrom - 1 - i] = null;
+        }
+        return waterSize;
     }
 
-    public int moveTopWater(int bottleFromIndex, int bottleToIndex) {
-        return moveTopWater(bottles.get(bottleFromIndex), bottles.get(bottleToIndex));
+    public void moveWater(int bottleFromIndex, int bottleToIndex, int movedWaterLevel) {
+        Water[] bottleFrom = bottles.get(bottleFromIndex);
+        Water[] bottleTo = bottles.get(bottleToIndex);
+        int waterLevelFrom = getWaterLevel(bottleFrom);
+        int waterLevelTo = getWaterLevel(bottleTo);
+        for (int i = 0; i < movedWaterLevel; i++) {
+            bottleTo[waterLevelTo + i] = bottleFrom[waterLevelFrom - 1 - i];
+            bottleFrom[waterLevelFrom - 1 - i] = null;
+        }
     }
 
 
@@ -144,5 +180,6 @@ public class BottleSet{
         }
         return true;
     }
+
 
 }
