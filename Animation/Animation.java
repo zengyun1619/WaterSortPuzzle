@@ -41,17 +41,17 @@ public class Animation{
         Font font = new Font("ITALIC", Font.BOLD, 25);
         StdDraw.setFont(font);
 
-        StdDraw.rectangle(xScale / 2, yScale / 8 * 6 , xScale / 12, yScale / 16);
-        StdDraw.text(xScale / 2, yScale / 8 * 6, "P: Play Game");
+        StdDraw.rectangle(xScale / 2.0, yScale / 8.0 * 7.0 , xScale / 12.0, yScale / 16.0);
+        StdDraw.text(xScale / 2.0, yScale / 8.0 * 7.0, "P: Play Game");
 
-        StdDraw.rectangle(xScale / 2, yScale / 8 * 5, xScale / 12, yScale / 16);
-        StdDraw.text(xScale / 2, yScale / 8 * 5, "S: Save Game");
+        StdDraw.rectangle(xScale / 2.0, yScale / 8.0 * 5.0, xScale / 12.0, yScale / 16.0);
+        StdDraw.text(xScale / 2.0, yScale / 8.0 * 5.0, "S: Switch User");
 
-        StdDraw.rectangle(xScale / 2, yScale / 8 * 4, xScale / 12, yScale / 16);
-        StdDraw.text(xScale / 2, yScale / 8 * 4, "L: Load Game");
+        StdDraw.rectangle(xScale / 2.0, yScale / 8.0 * 3.0, xScale / 12.0, yScale / 16.0);
+        StdDraw.text(xScale / 2.0, yScale / 8.0 * 3.0, "J: Jump to Level");
 
-        StdDraw.rectangle(xScale / 2, yScale / 8 * 3, xScale / 12, yScale / 16);
-        StdDraw.text(xScale / 2, yScale / 8 * 3, "Q: Quit");
+        StdDraw.rectangle(xScale / 2.0, yScale / 8.0 * 1.0, xScale / 12.0, yScale / 16.0);
+        StdDraw.text(xScale / 2.0, yScale / 8.0 * 1.0, "Q: Quit");
 
         StdDraw.show();
     }
@@ -72,7 +72,7 @@ public class Animation{
     public void gameDisplay(BottleSet bottleSet) {
 
         StdDraw.setPenColor(Color.BLACK);
-        StdDraw.filledRectangle(xScale / 2, yScale / 2, xScale / 2, yScale / 2);
+        StdDraw.filledRectangle(xScale / 2.0, yScale / 2.0, xScale / 2.0, yScale / 2.0);
 
         for (int i = 0; i < bottleSet.getBottleCount(); i++) {
             Water[] bottle = bottleSet.getBottle(i);
@@ -82,19 +82,19 @@ public class Animation{
             }
             if (bottleSet.getWaterLevel(bottle) > 0) {
                 StdDraw.setPenColor(bottle[0].getColor());
-                StdDraw.filledCircle(i * bottleGap + xIndent, 0 * bottleHalfWidth * 2 + yIndentForSelectedBottle - bottleHalfWidth / 2, bottleHalfWidth);
+                StdDraw.filledCircle(i * bottleGap + xIndent, 0 * bottleHalfWidth * 2.0 + yIndentForSelectedBottle - bottleHalfWidth / 2, bottleHalfWidth);
             }
             for (int j = 0; j < bottleSet.getWaterLevel(bottle); j ++) {
                 StdDraw.setPenColor(bottle[j].getColor());
-                StdDraw.filledSquare(i * bottleGap + xIndent, j * bottleHalfWidth * 2 + yIndentForSelectedBottle, bottleHalfWidth);
+                StdDraw.filledSquare(i * bottleGap + xIndent, j * bottleHalfWidth * 2.0 + yIndentForSelectedBottle, bottleHalfWidth);
             }
             StdDraw.setPenColor(Color.WHITE);
             StdDraw.setPenRadius(0.005);
-            StdDraw.arc(i * bottleGap + xIndent, yIndentForSelectedBottle - bottleHalfWidth / 2, bottleHalfWidth, 180, 360);
-            StdDraw.line(i * bottleGap + xIndent + bottleHalfWidth, yIndentForSelectedBottle - bottleHalfWidth / 2
-                    , i * bottleGap + xIndent + bottleHalfWidth, yIndentForSelectedBottle - bottleHalfWidth + bottleHalfWidth * 2 * bottleSet.getWaterLevelMax());
-            StdDraw.line(i * bottleGap + xIndent - bottleHalfWidth, yIndentForSelectedBottle - bottleHalfWidth / 2
-                    , i * bottleGap + xIndent - bottleHalfWidth, yIndentForSelectedBottle - bottleHalfWidth + bottleHalfWidth * 2 * bottleSet.getWaterLevelMax());
+            StdDraw.arc(i * bottleGap + xIndent, yIndentForSelectedBottle - bottleHalfWidth / 2.0, bottleHalfWidth, 180, 360);
+            StdDraw.line(i * bottleGap + xIndent + bottleHalfWidth, yIndentForSelectedBottle - bottleHalfWidth / 2.0
+                    , i * bottleGap + xIndent + bottleHalfWidth, yIndentForSelectedBottle - bottleHalfWidth + bottleHalfWidth * 2.0 * bottleSet.getWaterLevelMax());
+            StdDraw.line(i * bottleGap + xIndent - bottleHalfWidth, yIndentForSelectedBottle - bottleHalfWidth / 2.0
+                    , i * bottleGap + xIndent - bottleHalfWidth, yIndentForSelectedBottle - bottleHalfWidth + bottleHalfWidth * 2.0 * bottleSet.getWaterLevelMax());
         }
         
         userControlDisplay();
@@ -104,16 +104,16 @@ public class Animation{
 
     public void userControlDisplay() {
         StdDraw.setPenColor(Color.BLACK);
-        StdDraw.filledRectangle(xScale / 2, yScale - 10, yScale/2, 10);
+        StdDraw.filledRectangle(xScale / 2.0, yScale - 10., yScale / 2.0, 10.0);
         StdDraw.setPenColor(Color.WHITE);
 
         Font font = new Font("ITALIC", Font.BOLD, 25);
         StdDraw.setFont(font);
-        StdDraw.text(xScale / 2, yScale - 5.0, "R: Reset    U: Undo    A: Add Bottle    S: Solution    M: Menu     Q: Quit");
+        StdDraw.text(xScale / 2.0, yScale - 5.0, "R: Reset    U: Undo    A: Add Bottle    S: Solution    M: Menu     Q: Quit");
     }
 
     public int getBottleIndexAtLocation(double x, double y, BottleSet bottleSet) {
-        if (y <= yIndent - bottleHalfWidth + bottleHalfWidth * 2 * bottleSet.getWaterLevelMax() && y >= yIndent - bottleHalfWidth) {
+        if (y <= yIndent - bottleHalfWidth + bottleHalfWidth * 2.0 * bottleSet.getWaterLevelMax() && y >= yIndent - bottleHalfWidth) {
             if ( (x - xIndent) / bottleGap - Math.floor((x - xIndent) / bottleGap) <= bottleHalfWidth / bottleGap && Math.floor((x - xIndent) / bottleGap) >= 0 ) {
                 return (int) Math.floor((x - xIndent) / bottleGap);
             } else if ( (x - xIndent) / bottleGap - Math.ceil((x - xIndent) / bottleGap) >= - bottleHalfWidth / bottleGap && Math.ceil((x - xIndent) / bottleGap) <= bottleSet.getBottleCount() - 1)  {
@@ -150,7 +150,15 @@ public class Animation{
     }
 
     public void gameWinDisplay() {
-
+        StdDraw.clear(Color.BLACK);
+        Font font = new Font("Monaco", Font.BOLD, 25);
+        StdDraw.setFont(font);
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.text(xScale / 2.0, yScale / 2.0, "YOU WIN!");
+        Font fontSmall = new Font("Monaco", Font.BOLD, 15 );
+        StdDraw.setFont(fontSmall);
+        StdDraw.text(xScale / 2.0, yScale / 4.0, "Press any key for the next level.");
+        StdDraw.show();
     }
 
     public void gameLoseDisplay() {

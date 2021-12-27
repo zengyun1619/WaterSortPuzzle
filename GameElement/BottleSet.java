@@ -7,15 +7,17 @@ import java.util.Random;
 public class BottleSet{
     private static final int waterLevelMax = 4;
 
-    private int bufferBottleCount = 2;
+    private int bufferBottleCount;
     private int bottleCount;
-    private int successCount = 0;
 
     private ArrayList<Water[]> bottles = new ArrayList<>();
 
-    public BottleSet(int bottleCount) {
+    public BottleSet(int bottleCount, int bufferBottleCount) {
         this.bottleCount = bottleCount;
+        this.bufferBottleCount = bufferBottleCount;
     }
+
+    public int getBottleCount() { return bottleCount; }
 
     public void initiate(Random rd) {
         for (int i = 0; i < bottleCount - bufferBottleCount; i++) {
@@ -111,28 +113,6 @@ public class BottleSet{
         return waterLevelMax - waterLevel;
     }
 
-    public int getBottleCount() { return bottleCount; }
-
-    public int getSuccessCount() { return successCount; }
-
-    public void addSuccessCount() {
-        successCount += 1;
-    }
-
-    public void addWater(Water[] bottle, Water water) {
-        int waterLevel = getWaterLevel(bottle);
-        if (waterLevel < waterLevelMax) {
-            bottle[waterLevel] = water;
-        }
-    }
-
-    public void removeWater(Water[] bottle, Water water) {
-        int waterLevel = getWaterLevel(bottle);
-        if (waterLevel > 0) {
-            bottle[waterLevel - 1] = null;
-        }
-    }
-
     public int moveTopWater(int bottleFromIndex, int bottleToIndex) {
         Water[] bottleFrom = bottles.get(bottleFromIndex);
         Water[] bottleTo = bottles.get(bottleToIndex);
@@ -167,7 +147,6 @@ public class BottleSet{
         }
     }
 
-
     public boolean isSameColorAndFull(Water[] bottle) {
         if (bottle[0] == null) {
             return false;
@@ -175,6 +154,19 @@ public class BottleSet{
         Color waterColor = bottle[0].getColor();
         for (int i = 1; i < waterLevelMax; i++) {
             if (bottle[i] == null || !bottle[i].getColor().equals(waterColor)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkSuccess() {
+        for (int i = 0; i < bottleCount; i++) {
+            if (getWaterLevel(bottles.get(i)) == 0) {
+                continue;
+            } else if (getWaterLevel(bottles.get(i)) == 4 && getTopWaterSize(bottles.get(i)) == 4) {
+                continue;
+            } else {
                 return false;
             }
         }
