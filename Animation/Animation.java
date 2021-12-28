@@ -14,11 +14,11 @@ public class Animation{
     private static final double xScale = 200.0;
     private static final double yScale = 100.0;
 
-    private static final double xIndent = 40.0;
+    private static final double xIndent = 10.0;
     private static final double yIndent = 40.0;
     private static final double yIndentAdditionalForSelectedBottle = 3.0;
     
-    private static final double bottleHalfWidth = 3.0;
+    private static final double bottleHalfWidth = 3.5;
     private static final double bottleGap = 15.0;
     
     private double yIndentForSelectedBottle;

@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -45,7 +46,7 @@ public class Engine{
     public void startGame() {
 
         // fix bottle count
-        this.bottleCountInitial = 8;
+        this.bottleCountInitial = 12;
 
         enterUser();
         newGame();
@@ -54,21 +55,23 @@ public class Engine{
     public void menuControl() {
         animationImplementor.startWindowDisplay();
 
-        char c = getKey();
+        while (true) {
+            char c = getKey();
 
-        //P: Play Game. S: Switch User. J: Jump to Level. Q: Quit
+            //P: Play Game. S: Switch User. J: Jump to Level. Q: Quit
 
-        if (c == 'P') {
-            animationImplementor.gameDisplay(bottleSet);
-            playGame();
-        } else if (c == 'S') {
-            enterUser();
-            newGame();
-        } else if (c == 'J') {
-            enterLevel();
-            newGame();
-        } else if (c == 'Q') {
-            saveThenQuit();
+            if (c == 'P') {
+                animationImplementor.gameDisplay(bottleSet);
+                playGame();
+            } else if (c == 'S') {
+                enterUser();
+                newGame();
+            } else if (c == 'J') {
+                enterLevel();
+                newGame();
+            } else if (c == 'Q') {
+                saveThenQuit();
+            }
         }
     }
 
@@ -127,14 +130,18 @@ public class Engine{
     private void readUserInfo(String userId) {
         String readString;
         try {
-            URL path = User.class.getClassLoader().getResource(userId + ".txt");
-            File gameState = new File(path.getFile());
-            Scanner myReader = new Scanner(gameState);
-            readString = myReader.nextLine();
-            myReader.close();
-            this.user = new User(userId);
-            user.setLevel(Integer.parseInt(readString));
-            this.seed = user.getUserLevel();
+            File gameState = new File(new File(User.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getPath() + '/' + userId + ".txt");
+            if (gameState.exists()) {
+                Scanner myReader = new Scanner(gameState);
+                readString = myReader.nextLine();
+                myReader.close();
+                this.user = new User(userId);
+                user.setLevel(Integer.parseInt(readString));
+                this.seed = user.getUserLevel();
+            } else {
+                this.user = new User(userId);
+                this.seed = user.getUserLevel();
+            }
         } catch (Exception e) {
             this.user = new User(userId);
             this.seed = user.getUserLevel();
@@ -145,18 +152,12 @@ public class Engine{
         String userId = user.getUserId();
         int userLevel = user.getUserLevel();
         try {
-            URL path = User.class.getResource(userId + ".txt");
-            File gameState;
-            if (path == null) {
-                gameState = new File(User.class.getProtectionDomain().getCodeSource().getLocation().getPath() + userId + ".txt");
-            } else {
-                gameState = new File(path.getFile());
-            }
+            File gameState = new File(new File(User.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getPath() + '/' + userId + ".txt");
             FileWriter fw = new FileWriter(gameState.getAbsoluteFile(), false);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(Integer.toString(userLevel));
             bw.close();
-        } catch(IOException e) {
+        } catch(IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         System.exit(0);
