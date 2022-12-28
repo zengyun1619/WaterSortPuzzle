@@ -164,4 +164,9 @@ public class Animation{
     public void gameLoseDisplay() {
 
     }
+
+    public void pause() {
+        StdDraw.pause(500);
+    }
+
 }

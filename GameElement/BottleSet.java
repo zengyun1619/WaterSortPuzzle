@@ -160,6 +160,19 @@ public class BottleSet{
         return true;
     }
 
+    public boolean isSameColor(Water[] bottle) {
+        if (bottle[0] == null) {
+            return false;
+        }
+        Color waterColor = bottle[0].getColor();
+        for (int i = 1; i < getWaterLevel(bottle); i++) {
+            if (!bottle[i].getColor().equals(waterColor)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean checkSuccess() {
         for (int i = 0; i < bottleCount; i++) {
             if (getWaterLevel(bottles.get(i)) == 0) {

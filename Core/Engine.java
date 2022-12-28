@@ -46,7 +46,7 @@ public class Engine{
     public void startGame() {
 
         // fix bottle count
-        this.bottleCountInitial = 12;
+        this.bottleCountInitial = 11;
 
         enterUser();
         newGame();
@@ -198,7 +198,19 @@ public class Engine{
                 } else if (c == 'M') {
                     menuControl();
                 } else if (c == 'S') {
-                    solver.solve(bottleSet);
+                    ArrayList<UserAction> solutionSteps = solver.solve(bottleSet);
+                    resetGame();
+                    for (UserAction solutionStep : solutionSteps) {
+                        int sourceBottle = solutionStep.getSourceIndex();
+                        animationImplementor.selectBottle(sourceBottle);
+                        animationImplementor.gameDisplay(bottleSet);
+                        animationImplementor.pause();
+                        solutionStep.doAction(bottleSet);
+                        animationImplementor.selectBottle(sourceBottle);
+                        animationImplementor.gameDisplay(bottleSet);
+                        animationImplementor.pause();
+                    }
+
                 } else if (c == 'A') {
                     if (additionalBottleCount < additionalBottleLimit) {
                         additionalBottleCount += 1;

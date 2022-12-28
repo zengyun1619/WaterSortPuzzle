@@ -4,14 +4,29 @@ import GameElement.BottleSet;
 import GameElement.Water;
 
 public class MoveWater implements UserAction{
-    int originBottleIndex;
-    int destinationBottleIndex;
-    int movedWaterLevel;
+    public int originBottleIndex;
+    public int destinationBottleIndex;
+    public int movedWaterLevel;
 
     public MoveWater(int originBottleIndex, int destinationBottleIndex, int movedWaterLevel) {
         this.originBottleIndex = originBottleIndex;
         this.destinationBottleIndex = destinationBottleIndex;
         this.movedWaterLevel = movedWaterLevel;
+    }
+
+    @Override
+    public int getSourceIndex() {
+        return originBottleIndex;
+    }
+
+    @Override
+    public int getDestinationIndex() {
+        return destinationBottleIndex;
+    }
+
+    @Override
+    public int getMovedWaterLevel() {
+        return movedWaterLevel;
     }
 
     @Override
