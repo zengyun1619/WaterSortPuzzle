@@ -18,6 +18,7 @@ public class Solver {
     }
 
     public ArrayList<UserAction> solve(BottleSet bottleSet) {
+        solutionSteps.clear();
         bottleCount = bottleSet.getBottleCount();
 
         for (int i = 0; i < bottleCount; i++) {
